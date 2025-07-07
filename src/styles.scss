@@ -1,1 +1,5 @@
-@import "tailwindcss"
+@import "tailwindcss";
+
+.btn {
+    @apply tracking-tighter cursor-pointer text-sm; 
+}
