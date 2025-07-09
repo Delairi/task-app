@@ -8,4 +8,15 @@
             </div>
         </div>
     </div>
+    <app-modal [icons]="icons" *ngIf="isOpen()">
+        <form class="flex flex-col gap-4">
+            <label class="label flex flex-col gap-2">Task Title <input type="text" class="input" /></label>
+            <label class="label flex flex-col gap-2">Description <textarea class="input"></textarea></label>
+            <label class="label flex flex-col gap-2">Category <input type="text" class="input" /></label>
+            <div class="flex justify-end gap-4">
+                <button class="btn btn-primary">Save</button>
+                <button type="button" class="btn btn-secondary" (click)="closeModal()">Cancel</button>
+            </div>
+        </form>
+    </app-modal>
 </div>

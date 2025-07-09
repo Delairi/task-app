@@ -1,0 +1,10 @@
+<div class="fixed bg-[#0000006b] w-screen h-screen top-0 left-0 flex items-center justify-center">
+    <div class="bg-white p-5 rounded-xl w-full mx-5 md:mx-0 md:w-1/2 max-h-1/2 overflow-y-auto">
+        <div class="flex justify-end">
+            <button (click)="closeModal()" class="btn">
+                <app-icon [icon]="icons['Close']"></app-icon>
+            </button>
+        </div>
+        <ng-content></ng-content>
+    </div>
+</div>

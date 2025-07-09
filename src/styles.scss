@@ -3,3 +3,20 @@
 .btn {
     @apply tracking-tighter cursor-pointer text-sm; 
 }
+
+.btn-primary {
+    @apply bg-black text-white hover:bg-gray-950 px-5 py-2 rounded-md;
+}
+
+.btn-secondary {
+    @apply text-gray-800;
+}
+
+.input {
+    @apply p-2 rounded-xl text-sm;
+    box-shadow: 0 .5px 2px rgb(66, 65, 65);
+}
+
+.label {
+    @apply text-sm font-semibold;   
+}
