@@ -1,19 +1,13 @@
 <div class="w-full shadow-md rounded-xl px-10 py-4 overflow-auto max-h-50 h-full">
     <div class="flex flex-col gap-3">
         <div class="flex flex-row gap-5 justify-between items-center">
-            <p class="truncate font-semibold tracking-tight">TITULO DEL TICKET O TAREA QUE SOLO DEBE TENER UNA LINEA</p>
+            <p class="truncate font-semibold tracking-tight">{{ task.title}}</p>
             <button class="cursor-pointer" (click)="handleDelete()">
                 <app-icon [icon]="Icons.Trash"></app-icon>
             </button>
         </div>
         <div>
-            <span class="text-sm">Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore perferendis natus repellat consequatur
-                aut earum neque atque vitae accusantium, eveniet esse quidem magni! Soluta libero obcaecati error velit
-                eveniet ex Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore perferendis natus repellat consequatur
-                aut earum neque atque vitae accusantium, eveniet esse quidem magni! Soluta libero obcaecati error velit
-                eveniet ex Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore perferendis natus repellat consequatur
-                aut earum neque atque vitae accusantium, eveniet esse quidem magni! Soluta libero obcaecati error velit
-                eveniet ex.</span>
+            <span class="text-sm">{{ task.description }}</span>
         </div>
     </div>
 </div>

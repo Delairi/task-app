@@ -10,7 +10,7 @@ import { ModalService } from '../../../../shared/services/modal';
   styleUrl: './menu.scss'
 })
 export class Menu {
-  @Input() openModal: any;
+  @Input() openModal!: () => void;
   icons = Icons
   constructor(private modalService: ModalService) { }
   createTask() {

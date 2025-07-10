@@ -20,3 +20,7 @@
 .label {
     @apply text-sm font-semibold;   
 }
+
+.error {
+    @apply text-red-500 text-sm;
+}
