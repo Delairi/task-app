@@ -3,8 +3,8 @@
     <div class="flex-1">
         <app-menu></app-menu>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            <div *ngFor="let task of tasks">
-                <app-card [task]="task"></app-card>
+            <div *ngFor="let task of taskList">
+                <app-card [task]="task" (deleted)="deleteTask($event)"></app-card>
             </div>
         </div>
     </div>

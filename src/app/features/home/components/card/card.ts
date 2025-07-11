@@ -1,8 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import Icons from '../../../../shared/icons/Icons';
 import { Icon } from '../../../../shared/components/icon/icon';
 import { Task } from '../../../../models/task';
-import { Tasks } from '../../../../services/tasks';
 @Component({
   selector: 'app-card',
   imports: [Icon],
@@ -12,17 +11,14 @@ import { Tasks } from '../../../../services/tasks';
 })
 export class Card {
   @Input() task!: Task;
+  @Output() deleted = new EventEmitter<number>();
   Icons = Icons;
 
-  constructor(private tasksService: Tasks) { }
+  constructor() { }
   handleDelete() {
-    this.tasksService.deleteTask(this.task.id).subscribe({
-      next: (task) => {
-        console.log('Task deleted successfully', task);
-      },
-      error: (error) => {
-        console.error('Error deleting task:', error);
-      }
-    });
+    if (!this.task.id) {
+      return;
+    }
+    this.deleted.emit(this.task.id);
   }
 }

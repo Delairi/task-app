@@ -1,4 +1,4 @@
-import { Component, computed, OnChanges, OnInit } from '@angular/core';
+import { Component, computed, OnInit, signal } from '@angular/core';
 import { Card } from './components/card/card';
 import { CommonModule } from '@angular/common';
 import { Filters } from './components/filters/filters';
@@ -26,8 +26,7 @@ export interface TaskForm {
 export class Home implements OnInit {
   isOpen = computed(() => this.modalService.isOpen());
   icons = Icons;
-  tasks: Task[] = [];
-  showErros = false;
+  tasks = signal<Task[]>([]);
   taskForm = new FormGroup<TaskForm>({
     title: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
     description: new FormControl(''),
@@ -42,7 +41,7 @@ export class Home implements OnInit {
   async getTasks() {
     this.tasksService.getTasks().subscribe({
       next: (tasks) => {
-        this.tasks = tasks;
+        this.tasks.set(tasks);
       },
       error: (error) => {
         console.error('Error fetching tasks:', error);
@@ -65,17 +64,30 @@ export class Home implements OnInit {
     }
     this.tasksService.createTask(newTask).subscribe({
       next: (task) => {
-        this.tasks.push(task);
+        const currentTasks = this.tasks();
+        this.tasks.set([...currentTasks, task]);
         this.modalService.closeModal();
         this.taskForm.reset();
       },
       error: (error) => {
         console.error('Error creating task:', error);
-        this.showErros = true;
       }
     });
-    this.modalService.closeModal();
   }
 
+  deleteTask(id: number) {
+    this.tasksService.deleteTask(id).subscribe({
+      next: () => {
+        this.tasks.set(this.tasks().filter(task => task.id !== id));
+      },
+      error: (error) => {
+        console.error('Error deleting task:', error);
+      }
+    });
+  }
+
+  get taskList() {
+    return this.tasks();
+  }
 
 }
