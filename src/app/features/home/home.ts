@@ -9,6 +9,7 @@ import { ModalService } from '../../shared/services/modal';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Tasks } from '../../services/tasks';
 import { Task } from '../../models/task';
+import { Loader } from '../../shared/components/loader/loader';
 
 export interface TaskForm {
   title: FormControl<string>;
@@ -18,7 +19,7 @@ export interface TaskForm {
 
 @Component({
   selector: 'app-home',
-  imports: [Modal, Menu, Filters, Card, CommonModule, ReactiveFormsModule],
+  imports: [Loader, Modal, Menu, Filters, Card, CommonModule, ReactiveFormsModule],
   standalone: true,
   templateUrl: './home.html',
   styleUrl: './home.scss'
@@ -32,6 +33,7 @@ export class Home implements OnInit {
     description: new FormControl(''),
     category: new FormControl('')
   })
+  isLoading = signal<boolean>(false);
   constructor(private modalService: ModalService, private tasksService: Tasks) { }
 
   ngOnInit() {
@@ -39,12 +41,15 @@ export class Home implements OnInit {
   }
 
   async getTasks() {
+    this.isLoading.set(true);
     this.tasksService.getTasks().subscribe({
       next: (tasks) => {
         this.tasks.set(tasks);
+        this.isLoading.set(false);
       },
       error: (error) => {
         console.error('Error fetching tasks:', error);
+        this.isLoading.set(false);
       }
     })
   }
@@ -62,26 +67,33 @@ export class Home implements OnInit {
       description: this.taskForm.value.description || null,
       category: this.taskForm.value.category || null,
     }
+    this.isLoading.set(true);
     this.tasksService.createTask(newTask).subscribe({
       next: (task) => {
         const currentTasks = this.tasks();
         this.tasks.set([...currentTasks, task]);
         this.modalService.closeModal();
         this.taskForm.reset();
+        this.isLoading.set(false);
       },
       error: (error) => {
         console.error('Error creating task:', error);
+        this.isLoading.set(false);
       }
     });
   }
 
   deleteTask(id: number) {
+
+      this.isLoading.set(true);
     this.tasksService.deleteTask(id).subscribe({
       next: () => {
         this.tasks.set(this.tasks().filter(task => task.id !== id));
+        this.isLoading.set(false);
       },
       error: (error) => {
         console.error('Error deleting task:', error);
+        this.isLoading.set(false);
       }
     });
   }
